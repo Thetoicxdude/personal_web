@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import Terminal from './components/Terminal'
 import { lightTheme, darkTheme, GlobalStyles } from './themes'

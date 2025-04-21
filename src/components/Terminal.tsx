@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { Terminal as XTerm } from '@xterm/xterm';
 import '@xterm/xterm/css/xterm.css';
 
 interface TerminalProps {
@@ -147,11 +146,6 @@ const ResultLine = styled.div`
   color: ${props => props.theme.resultColor};
 `;
 
-const HighlightedText = styled.span`
-  color: ${props => props.theme.highlightColor};
-  font-weight: bold;
-`;
-
 const CommandHistory = styled.div`
   display: flex;
   flex-direction: column;
@@ -208,12 +202,6 @@ const RickRollArt = styled(SystemMessage)`
   white-space: pre;
 `;
 
-const RickRollLyric = styled(SystemMessage)`
-  color: #ffff33;
-  margin: 5px 0;
-  padding: 0;
-`;
-
 // 定義檔案系統的類型
 interface FileItem {
   type: 'file';
@@ -257,21 +245,21 @@ const Terminal: React.FC<TerminalProps> = ({ toggleTheme }) => {
   const [historyIndex, setHistoryIndex] = useState<number>(-1);
   const [outputHistory, setOutputHistory] = useState<{command: string, result: CommandResult[]}[]>([]);
   const [userName, setUserName] = useState<string>('user');
-  const [hostName, setHostName] = useState<string>('terminal');
   const [currentDirectory, setCurrentDirectory] = useState<string>('~');
   const [cursorPosition, setCursorPosition] = useState<number>(0);
-  const [isBooting, setIsBooting] = useState<boolean>(false); // 禁用啟動動畫
-  const [bootStage, setBootStage] = useState<number>(bootMessages.length); // 直接設置為完成
+  const [isBooting, setIsBooting] = useState<boolean>(false);
+  const [bootStage, setBootStage] = useState<number>(bootMessages.length);
   const [isRickRolling, setIsRickRolling] = useState<boolean>(false);
-  const [isRoot, setIsRoot] = useState<boolean>(false); // 是否為管理員權限
-  const [groups, setGroups] = useState<string[]>(['users']); // 用戶所屬群組
-  const [passwordAttempts, setPasswordAttempts] = useState<number>(0); // 密碼嘗試次數
-  const [isSudoPrompt, setIsSudoPrompt] = useState<boolean>(false); // 是否處於sudo密碼提示
-  const [sudoCommand, setSudoCommand] = useState<string>(''); // 儲存sudo要執行的命令
-  const [isFullFeatured, setIsFullFeatured] = useState<boolean>(false); // 是否已啟用完整功能
+  const [isRoot, setIsRoot] = useState<boolean>(false);
+  const [groups] = useState<string[]>(['users']);
+  const [passwordAttempts, setPasswordAttempts] = useState<number>(0);
+  const [isSudoPrompt, setIsSudoPrompt] = useState<boolean>(false);
+  const [sudoCommand, setSudoCommand] = useState<string>('');
+  const [isFullFeatured, setIsFullFeatured] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const outputRef = useRef<HTMLDivElement>(null);
   const [previousDirectory, setPreviousDirectory] = useState<string | null>(null);
+  const [hostName] = useState<string>('terminal');
   
   // ASCII Art 名字
   const asciiName = [
@@ -2010,7 +1998,6 @@ const Terminal: React.FC<TerminalProps> = ({ toggleTheme }) => {
           return [{ type: 'error', content: 'chmod: 缺少操作數' }];
         }
         
-        const mode = args[0];
         const targetPath = args[1];
         
         // 獲取目標檔案或目錄
