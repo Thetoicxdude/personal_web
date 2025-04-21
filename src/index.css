@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+
+:root {
+  font-family: 'Fira Code', monospace;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+/* Linux 方塊光標樣式 */
+input {
+  caret-color: currentColor;
+}
+
+/* 在一些不支持 caret-shape 的瀏覽器中使用 animation 實現方塊光標 */
+@keyframes blink-caret {
+  from, to { border-right: 0.15em solid transparent; }
+  50% { border-right: 0.15em solid; }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #2e3440;
+    background-color: #f5f5f5;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #eceff4;
+    background-color: #2e3440;
+  }
+}
